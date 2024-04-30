@@ -38,20 +38,23 @@ const phoneHuntingDisplay = (phones) => {
         </div>
         `
         phoneContainer.appendChild(phoneCurd)
-    })
+    });
+    togolLoadingBars(false)
 }
 
 const handleSearchBtn = () =>{
+    togolLoadingBars(true)
     const searchField = document.getElementById('search-field');
     const fieldText = searchField.value;
     phoneHunting(fieldText)
 }
-
-// const handleSearchBtn2 = () =>{
-//     const searchField = document.getElementById('search-field2');
-//     const searchText = searchField.value;
-//     phoneHunting(fieldText)
-
-// }
-
-// phoneHunting();
+ 
+const togolLoadingBars = (isLoading)=>{
+    const loadingBars = document.getElementById('loading-bars');
+    if(isLoading){
+        loadingBars.classList.remove('hidden')
+    }
+    else{
+        loadingBars.classList.add('hidden')
+    }
+}
