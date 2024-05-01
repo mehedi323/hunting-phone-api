@@ -24,7 +24,7 @@ const phoneHuntingDisplay = (phones) => {
     phones= phones.slice(0,12);
 
     phones.forEach(phone => {
-        console.log(phone);
+        // console.log(phone);
         const phoneCurd = document.createElement('div');
         phoneCurd.classList = `card bg-purple-300 shadow-xl p-6 text-black`
         phoneCurd.innerHTML = `
@@ -32,14 +32,35 @@ const phoneHuntingDisplay = (phones) => {
         <div class="card-body">
             <h2 class="card-title">${phone.phone_name}</h2>
             <p>${phone.slug}</p>
-            <div class="card-actions justify-end">
-            <button class="btn btn-primary">${phone.brand}</button>
+            <div class="card-actions justify-center">
+            <button onclick="handleShowDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
             </div>
         </div>
         `
         phoneContainer.appendChild(phoneCurd)
     });
     togolLoadingBars(false)
+};
+
+// show Details
+const handleShowDetails = async (id) =>{
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const data = await res.json();
+    console.log(data);
+    const phone = data.data;
+    showAllDetails(phone)
+}
+
+const showAllDetails = (phone) =>{
+    console.log(phone);
+    const showAllContainer = document.getElementById('show-all-container')
+    showAllContainer.innerHTML = `
+    <img class="w-1/3 mx-auto text-center" src="${phone.image}" alt="">
+    <h3 class="font-bold text-lg">${phone.name}</h3>
+    <p class="py-4">${phone.mainFeatures.storage}</p>
+    <p class="py-4">${phone.others.GPS}</p>
+    `
+    show_details.showModal();
 }
 
 const handleSearchBtn = () =>{
@@ -48,6 +69,8 @@ const handleSearchBtn = () =>{
     const fieldText = searchField.value;
     phoneHunting(fieldText)
 }
+
+
  
 const togolLoadingBars = (isLoading)=>{
     const loadingBars = document.getElementById('loading-bars');
